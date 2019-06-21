@@ -1,0 +1,15 @@
+{% extends 'poll/base.html' %}
+{% block body %}
+<div class="">
+    <small class="text-secondary">User Details</small>
+    <h4 class="text-secondary">Update User Details</h4>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered table-light">
+            {{form.as_table}}
+            <tr><td colspan="2"><button type="submit" class="btn btn-success float-right">Update Employee</button></td></tr>
+        </table>
+        <br>
+    </form>
+</div>
+{% endblock body %}

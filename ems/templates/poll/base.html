@@ -1,0 +1,97 @@
+<!doctype html>
+{% load static %}
+{% load poll_extras %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>{{ title }}</title>
+    <style>
+    .btn-group-xs > .btn, .btn-xs {
+      padding: .25rem .4rem;
+      font-size: .875rem;
+      line-height: .7;
+      border-radius: .2rem;
+    }
+    </style>
+  </head>
+  <body class="bg-light">
+  <nav class="navbar navbar-expand-sm bg-white navbar-white shadow-sm p-3 mb-4 bg-white">
+      <!-- Brand/logo -->
+      <a class="navbar-brand text-dark" href="/polls">Employee Management System</b></a>
+
+      <!-- Links -->
+      <ul class="navbar-nav ml-auto">
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link text-info" href="{% url 'my_profile' %}"><b>{{ user.first_name}} {{ user.last_name}} ({{ request.role }})</b></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="{% url 'polls_list' %}">
+                  Polls<span class="badge badge-danger badge-pill ml-1">{{ polls_count }}</span>
+              </a>
+            </li>
+            {% if request.role == 'HR' or request.role == 'Admin' %}
+                <li class="nav-item">
+                  <a class="nav-link text-dark" href="{% url 'all_poll' %}">Manage Polls</a>
+                </li>
+            {% endif %}
+            {% if request.role == 'Admin' %}
+                <li class="nav-item">
+                  <a class="nav-link text-dark" href="{% url 'employee_list' %}">Manage Employee</a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="btn btn-outline-danger ml-2" href="{% url 'user_logout' %}">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="btn btn-success ml-2" href="{% url 'user_login' %}">Login</a>
+            </li>
+          {% endif %}
+      </ul>
+  </nav>
+  <!-- Conatainer -->
+    <div class="container">
+        <div class="row m-auto">
+            <div class="col-md-8 p-4 bg-white border m-2">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                          <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block body %}
+                {% endblock body %}
+            </div>
+            {% if user.is_authenticated %}
+            <div class="col-md-3 p-4 bg-white border m-2">
+                {% recent_polls as curr_polls %}
+                <h5 class="text-secondary">Lastest Polls</h5>
+                <hr>
+                {% if curr_polls %}
+                    {% for poll in curr_polls %}
+                        > <a href="{% url 'poll_details' poll.id %}" class="text-info">{{ poll }}</a><br>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-secondary">No polls available</p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $('input[type=text]').addClass('form-control');
+        $('input[type=email]').addClass('form-control');
+        $('input[type=password]').addClass('form-control');
+        $('input[type=number]').addClass('form-control');
+        $('select').addClass('form-control');
+    </script>
+  </body>
+</html>

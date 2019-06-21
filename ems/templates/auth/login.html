@@ -1,0 +1,22 @@
+{% extends 'poll/base.html' %}
+{% block body %}
+<div class="">
+    <form method="POST">
+        {% csrf_token %}
+        <table class="table table-light table-bordered">
+            <tr>
+                <td><label for="username">Username</label></td>
+                <td><input type="text" name="username" id="username" required></td>
+            </tr>
+            <tr>
+                <td><label for="password">Password</label>
+                </td>
+                <td><input type="password" name="password" id="password" required></td>
+            </tr>
+            <tr><td colspan="2"><button type="submit" class="btn btn-success btn-block float-right">Login</button></td></tr>
+        </table>
+        <p class="text-danger text-center">{{error}}</p>
+    </form>
+</div>
+{% endblock body %}
+

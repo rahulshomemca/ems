@@ -1,0 +1,21 @@
+{% extends 'poll/base.html' %}
+{% block body %}
+<div class="">
+    <small class="text-secondary">Response to Question:</small>
+    <h4 class="text-secondary">{{ question.title }}</h4>
+    {% if question.choices %}
+        <form action="{% url 'single_details' question.id %}" method="POST" class="pl-2">
+            {% csrf_token %}
+            {% for choice in question.choices %}
+                <input type="radio" name="choice" value="{{ choice.id }}"> {{ choice.text }}<br>
+            {% endfor %}
+            <br>
+            <button type="submit" class="btn btn-info">Vote</button>
+        </form>
+    {% else %}
+        <p class="text-danger"><i>No choice available for this question</i></p>
+    {% endif %}
+    <hr>
+    <small class="text-info mt-4"><b>Poll Created By</b> : {{ question.created_by.first_name  }} {{ question.created_by.last_name  }}</small>
+</div>
+{% endblock body %}

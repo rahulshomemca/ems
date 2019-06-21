@@ -1,0 +1,40 @@
+{% extends 'poll/base.html' %}
+{% block body %}
+<div class="">
+
+    <h4 class="text-secondary">List of Polls
+        {% if request.role == 'HR' or request.role == 'Admin' %}
+        <a class="btn btn-primary float-right" href="{%  url 'poll_add' %}">Add Poll</a>
+        {% endif %}
+    </h4>
+    <hr>
+    <div class="table-responsive-sm">
+    {% if questions %}
+        <table class="table table-light table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for question in questions %}
+                <tr>
+                    <th scope="row">
+                        {{question.title}}
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-info" href="{%  url 'poll_details' question.id %}">Details</a>
+                        <a class="btn btn-success" href="{%  url 'poll_edit' question.id %}">Edit</a>
+                        <a class="btn btn-danger" href="{%  url 'poll_delete' question.id %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+    {% else %}
+        <p class="text-secondary">There is no poll available.</p>
+    {% endif %}
+    </div>
+</div>
+{% endblock body %}

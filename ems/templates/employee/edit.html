@@ -1,0 +1,26 @@
+{% extends 'poll/base.html' %}
+{% block body %}
+<div class="">
+    <small class="text-secondary">Update User Details</small>
+    <h4 class="text-secondary">Enter User Details</h4>
+    <form method="POST">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            {{user_form.as_table}}
+            <tr><td colspan="2"><input type="checkbox" onclick="myFunction()"> Show Password</td></tr>
+            <tr><td colspan="2"><button type="submit" class="btn btn-success float-right">Update Employee</button></td></tr>
+        </table>
+    </form>
+</div>
+<script>
+function myFunction() {
+  var x = document.getElementById("id_password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+{% endblock body %}
+

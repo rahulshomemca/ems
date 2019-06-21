@@ -1,0 +1,12 @@
+{% extends 'poll/base.html' %}
+{% block body %}
+<div class="">
+    <small class="text-secondary">Delete Poll</small>
+    <h2>{{question.title}}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure to delete this Poll?</p>
+        <input type="submit" value="Yes" class="btn btn-danger">
+    </form>
+</div>
+{% endblock body %}
